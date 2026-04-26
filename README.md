@@ -216,37 +216,46 @@ cd backend
 npm test
 ```
 
----
-
 ## Deployment (Render — Single Service)
 
 The application is designed for **single-service deployment**: Express serves both the API and the built React frontend from `frontend/dist`.
 
-### Option A: Render Web Service
+### Option A: Render Blueprint (Recommended)
+
+A `render.yaml` is included in the repo root. To deploy:
+
+1. Push the repo to GitHub.
+2. Go to [Render Dashboard](https://dashboard.render.com) → **New** → **Blueprint**.
+3. Connect your GitHub repo → Render auto-detects `render.yaml` and deploys.
+
+### Option B: Render Web Service (Manual)
 
 1. Push the repo to GitHub.
 
-2. Create a new **Web Service** on [Render](https://render.com):
+2. Go to [Render Dashboard](https://dashboard.render.com) → **New** → **Web Service**.
 
-| Setting          | Value                                            |
-|------------------|--------------------------------------------------|
-| Root Directory   | `backend`                                        |
-| Build Command    | `cd ../frontend && npm install && npm run build && cd ../backend && npm install` |
-| Start Command    | `npm start`                                      |
-| Environment      | `NODE_ENV=production`                            |
+3. Connect your GitHub repo and configure:
 
-3. Render will automatically build the frontend and serve it via Express.
+| Setting          | Value                                                                            |
+|------------------|----------------------------------------------------------------------------------|
+| Root Directory   | *(leave empty — repo root)*                                                      |
+| Build Command    | `cd frontend && npm install && npm run build && cd ../backend && npm install`     |
+| Start Command    | `cd backend && node src/index.js`                                                |
 
-**Environment variables (optional):**
+4. Add environment variable: `NODE_ENV` = `production`
 
-| Variable   | Default                  | Description              |
-|------------|--------------------------|--------------------------|
+5. Click **Deploy Web Service**.
+
+**Environment variables reference:**
+
+| Variable   | Default                  | Description                                  |
+|------------|--------------------------|----------------------------------------------|
 | `PORT`     | `3001`                   | Server port (Render sets this automatically) |
-| `NODE_ENV` | `development`            | Set to `production`      |
-| `DB_PATH`  | `./data/expenses.db`     | SQLite database path     |
-| `LOG_LEVEL`| `info`                   | `debug`, `info`, `warn`, `error` |
+| `NODE_ENV` | `development`            | Set to `production`                          |
+| `DB_PATH`  | `./data/expenses.db`     | SQLite database path                         |
+| `LOG_LEVEL`| `info`                   | `debug`, `info`, `warn`, `error`             |
 
-### Option B: Manual / Docker
+### Option C: Manual / Docker
 
 ```bash
 # Build frontend
@@ -257,7 +266,7 @@ npm run build
 # Start production server
 cd ../backend
 npm install --production
-NODE_ENV=production npm start
+NODE_ENV=production node src/index.js
 
 # App is now on http://localhost:3001
 ```
