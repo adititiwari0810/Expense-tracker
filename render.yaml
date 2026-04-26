@@ -1,6 +1,10 @@
 # Render Blueprint — Single-service deployment
 # Express serves both the API and the built React frontend.
 #
+# Root Directory is set to "backend" so Render detects the Node runtime
+# from backend/package.json. The full repo is still cloned, so
+# cd ../frontend works to build the React app.
+#
 # Docs: https://docs.render.com/blueprint-spec
 
 services:
@@ -8,8 +12,9 @@ services:
     name: expense-tracker
     runtime: node
     plan: free
-    buildCommand: "cd frontend && npm install && npm run build && cd ../backend && npm install"
-    startCommand: "cd backend && node src/index.js"
+    rootDir: backend
+    buildCommand: "npm install && cd ../frontend && npm install && npm run build"
+    startCommand: "npm start"
     envVars:
       - key: NODE_ENV
         value: production
