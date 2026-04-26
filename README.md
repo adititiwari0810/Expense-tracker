@@ -239,7 +239,7 @@ A `render.yaml` is included in the repo root. To deploy:
 | Setting          | Value                                                                            |
 |------------------|----------------------------------------------------------------------------------|
 | Root Directory   | `backend`                                                                        |
-| Build Command    | `npm install && cd ../frontend && npm install --production=false && npm run build` |
+| Build Command    | `npm install && cd ../frontend && npm install --include=dev && npm run build`     |
 | Start Command    | `npm start`                                                                      |
 
 4. Add environment variable: `NODE_ENV` = `production`
